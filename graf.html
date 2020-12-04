@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Page Title</title>
+	</head>
+	<body>
+					
+		<canvas id="canvas" width="450" height="400"></canvas>
+		<div id="equations"><div>Click function below to remove</div></div>	
+		<input id="functioninput" placeholder="Input Function in x Here"><button id="functioninput2" onclick="add()">Add function!</button>
+		<script>
+		var e=2.7182818;
+		var pi=Math.PI;
+		var canvas=document.getElementById("canvas");
+		var ctx=canvas.getContext("2d");
+		 var functions=[];
+		 var nfunc;
+		 var drawloop=setInterval(draw,100);
+		 var functionlist;
+		 var colors=["red","orange","yellow","green","skyblue","purple","black"];
+		 var color;
+		 var scale=20;
+		 var x;
+		 var y;
+		 function draw(){
+			 //scale+=0.01;
+			 clear()
+			 functionlist=document.getElementById("equations").childNodes;
+			  functions=[];
+			 for(i=0;i<=functionlist.length-1;i++){
+				 functions[i]=functionlist[i].innerHTML;
+			}
+			color=colors[Math.floor(colors.length*Math.random())];
+			for(i=1;i<=functions.length-1;i++){
+				ctx.strokeStyle="red";
+				ctx.beginPath()
+				x=(-canvas.width/2)*scale;
+				ctx.moveTo(0,-eval(functions[i])*scale+canvas.height/2)
+				for(xi=0;xi<20*canvas.width/scale;xi+=1/scale){
+					x=(xi-canvas.width/2);
+					y=eval(functions[i]);
+					ctx.lineTo(x*scale+canvas.width/2,-y*scale+canvas.height/2)
+					ctx.moveTo(x*scale+canvas.width/2,-y*scale+canvas.height/2)
+				}
+				ctx.lineTo(canvas.width,-y*scale+canvas.height/2)
+				//ctx.closePath()
+				ctx.stroke()
+				
+			}
+			ctx.strokeStyle="rgba(0,0,0,0.3)"
+			ctx.beginPath()
+			for(i=-10;i<=10;i++){
+			ctx.moveTo(0,canvas.height/2+i*scale)
+				ctx.lineTo(canvas.width,canvas.height/2+i*scale) 
+			ctx.moveTo(canvas.width/2+i*scale,0)
+				ctx.lineTo(canvas.width/2+i*scale,canvas.height)
+			}
+			ctx.closePath()
+			ctx.stroke()
+			ctx.strokeStyle="black"
+				ctx.beginPath()
+				ctx.moveTo(0,canvas.height/2)
+				ctx.lineTo(canvas.width,canvas.height/2)
+				ctx.moveTo(canvas.width/2,0)
+				ctx.lineTo(canvas.width/2,canvas.height)
+				ctx.moveTo(canvas.width/2-10,canvas.height/2-scale)
+				ctx.lineTo(canvas.width/2+10,canvas.height/2-scale)
+				ctx.closePath()
+				ctx.stroke()
+				ctx.fillText("1",canvas.width/2+15,canvas.height/2-scale+2)
+				ctx.fillText("Made By RedBlazerFlame. Don't forget to like!",0,10)
+		 }
+		 function clear(){
+			 ctx.clearRect(0,0,canvas.width,canvas.height);
+		 }
+		 function add(){
+			 nfunc=document.getElementById("functioninput").value;
+			 if(nfunc!=""){
+			var p = document.createElement("p");
+  var node = document.createTextNode(nfunc);
+  //adding the text to the paragraph
+  p.appendChild(node);
+p.id=p.innerHTML;
+  var div = document.getElementById("equations");
+  //adding the paragraph to the div
+  div.appendChild(p);
+  p.onclick=function(){
+	  document.getElementById("equations").removeChild(document.getElementById(p.id));
+  }
+			 }
+			 //alert(functions)
+		 }
+		 function sin(x){
+			 return Math.sin(x);
+		 }
+		 function cos(x){
+			 return Math.cos(x);
+		 }
+		 function tan(x){
+			 return Math.tan(x);
+		 }
+		 function normaldist(x){
+			 return 1/Math.sqrt(Math.PI*2)*Math.pow(e,-1/2*x*x);
+		 }
+		 function pow(x,p){
+			 return Math.pow(x,p);
+		 }
+		 function sig(x){
+			 return 1/(1+Math.pow(e,-x));
+		 }
+		 function sqrt(x){
+			 return Math.sqrt(x);
+		 }
+		 function root(x,p){
+			 return Math.pow(x,1/p);
+		 }
+		 function log(x, y) {
+  return Math.log(y) / Math.log(x);
+}
+function ln(x){
+	return Math.log(x);
+}
+function integrate(f, start, end, step) {
+  var total = 0
+  step = step || 0.01
+  for (x = start; x < end; x += step) {
+	total += f(x + step / 2) * step
+  }
+  return total;
+}
+function diff(f, x, dx) {
+	dx = dx || .0000001;
+	return (f(x+dx) - f(x)) / dx;
+}
+function exp(x){
+    return Math.exp(x);
+}
+		</script>
+		<style>
+			#canvas{
+				background:#e0e0e0;
+				float:left;
+				position:fixed;
+				left:0px;
+				top:0px;
+			}
+			#equations{
+				position:absolute;
+				left:450px;
+				top:0px;
+				float:right;
+				width:164px;
+			}
+			#equations p{
+				width:94px;
+				height:20px;
+				font-family:arial;
+				overflow:auto;
+				padding:33px;
+				font-size:15px;
+				
+				margin:0px;
+				background:#f0f0f0;
+				border-bottom:1px solid rgba(0,0,0,0.1);
+				border-top:1px solid rgba(0,0,0,0.1);
+				border-left:2px solid black;
+				border-right:2px solid black;
+			}
+			#equations div{
+				background:#000022;
+				color:white;
+				font-family:arial;
+			}
+			#functioninput{
+				float:left;
+				position:fixed;
+				left:0px;
+				top:400px;
+			}
+			#functioninput2{
+				float:left;
+				position:fixed;
+				left:165px;
+				top:400px;
+			}
+		</style>
+	</body>
+</html>
